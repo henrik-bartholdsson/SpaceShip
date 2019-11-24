@@ -118,6 +118,8 @@ namespace week2_day2
             }
             Console.WriteLine();
 
+            Console.CursorVisible = false;
+
             while (plotMapSpotX != cordP[0])
             {
                 System.Threading.Thread.Sleep(200);
