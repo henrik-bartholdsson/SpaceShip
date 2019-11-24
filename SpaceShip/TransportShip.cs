@@ -73,8 +73,10 @@ namespace week2_day2
                 Console.WriteLine("<empty>");
             }
             foreach (var item in storage)
+            {
                 Console.WriteLine($"- {item.GetDescription()}");
-            Console.WriteLine("-/");
+            }
+
             Console.WriteLine();
         }
 
@@ -85,19 +87,27 @@ namespace week2_day2
 
         public void GetDistance()
         {
-            int xSqr = 0;
-            int ySqr = 0;
-            int hypotenuseRote = 0;
             int distance = 0;
             var file = File.ReadLines("map.txt");
             List<char[]> map = new List<char[]>();
+            int yReference = 0;
+            var plotMapSpotY = Console.CursorTop;
+            var plotMapSpotX = 0;
 
             foreach (var line in file)
             {
                 map.Add(line.ToCharArray());
             }
+            var cordX = GetCordinate(map, 'X');
+            var cordP = GetCordinate(map, 'P');
 
-            Console.WriteLine("####### The map #######");
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.WriteLine("The map.");
+            Console.ResetColor();
+            yReference = Console.CursorTop;
+            plotMapSpotY = cordX[1] + yReference;
+            plotMapSpotX = cordX[0];
             foreach (var line in map)
             {
                 foreach (var ch in line)
@@ -106,24 +116,62 @@ namespace week2_day2
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("#######################");
+            Console.WriteLine();
 
-            var cordX = GetCordinate(map, 'X');
-            var cordP = GetCordinate(map, 'P');
+            while (plotMapSpotX != cordP[0])
+            {
+                System.Threading.Thread.Sleep(200);
+                Console.BackgroundColor = ConsoleColor.Red;
+                if (cordX[0] > cordP[0])
+                {
+                    plotMapSpotX--;
+                    Console.SetCursorPosition(plotMapSpotX, plotMapSpotY);
+                    Console.Write(map[plotMapSpotY - yReference][plotMapSpotX]);
+                }
+                else if (cordX[0] < cordP[0])
+                {
+                    plotMapSpotX++;
+                    Console.SetCursorPosition(plotMapSpotX, plotMapSpotY);
+                    Console.Write(map[plotMapSpotY - yReference][plotMapSpotX]);
+                }
+            }
 
-            // A square can never be a negative number, so we can avoid ugly multiplications by -1
+            while ((plotMapSpotY - yReference) != cordP[1])
+            {
+                System.Threading.Thread.Sleep(200);
+                Console.BackgroundColor = ConsoleColor.Red;
+                if (cordX[1] > cordP[1])
+                {
+                    plotMapSpotY--;
+                    Console.SetCursorPosition(plotMapSpotX, plotMapSpotY);
+                    Console.Write(map[plotMapSpotY - yReference][plotMapSpotX]);
+                }
+                else if (cordX[1] < cordP[1])
+                {
+                    plotMapSpotY++;
+                    var yp = plotMapSpotY - yReference;
+                    Console.SetCursorPosition(plotMapSpotX, plotMapSpotY);
+                    Console.Write(map[plotMapSpotY - yReference][plotMapSpotX]);
+                }
+            }
+            Console.CursorTop = yReference + map[1].Length -cordP[1];
+            Console.CursorLeft = 0;
+            Console.ResetColor();
+
+
+
             distance += (int)Math.Sqrt((int)Math.Pow((cordP[0] - cordX[0]), 2));
             distance += (int)Math.Sqrt((int)Math.Pow((cordP[1] - cordX[1]), 2));
 
             Console.WriteLine($"Distance to destination: {distance}");
             Console.WriteLine();
 
-            // To plot your route in a 90 degree angle is just stupid when Pythagoras showed us a shorter way.... a^2 + b^2 = c^2
-            xSqr = (int)Math.Pow((int)Math.Sqrt((int)Math.Pow((cordP[0] - cordX[0]), 2)), 2);
-            ySqr = (int)Math.Pow((int)Math.Sqrt((int)Math.Pow((cordP[1] - cordX[1]), 2)), 2);
-            hypotenuseRote = xSqr + ySqr;
-            hypotenuseRote = (int)Math.Sqrt(hypotenuseRote);
-            Console.WriteLine($"Shorter distance to destination: {hypotenuseRote}");
+            // A straight line is a better way to travel.... a^2 + b^2 = c^2
+            //xSqr = (int)Math.Pow((int)Math.Sqrt((int)Math.Pow((cordP[0] - cordX[0]), 2)), 2);
+            //ySqr = (int)Math.Pow((int)Math.Sqrt((int)Math.Pow((cordP[1] - cordX[1]), 2)), 2);
+            //hypotenuseRote = xSqr + ySqr;
+            //hypotenuseRote = (int)Math.Sqrt(hypotenuseRote);
+            //Console.WriteLine($"Shorter distance to destination: {hypotenuseRote}");
         }
 
         public int[] GetCordinate(List<char[]> map, char c)
