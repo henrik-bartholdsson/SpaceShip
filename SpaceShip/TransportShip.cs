@@ -44,7 +44,7 @@ namespace week2_day2
             Cargo cargoTemp;
             while (storage.Count > 0)
             {
-                cargoTemp = storage.Pop();
+                cargoTemp = RemoveCargo();
 
                 if (!ts.AddCargo(cargoTemp))
                 {
@@ -156,11 +156,10 @@ namespace week2_day2
                     Console.Write(map[plotMapSpotY - yReference][plotMapSpotX]);
                 }
             }
-            Console.CursorTop = yReference + map[1].Length -cordP[1];
+            Console.CursorTop = yReference + map.Count;
             Console.CursorLeft = 0;
             Console.ResetColor();
-
-
+            Console.CursorVisible = true;
 
             distance += (int)Math.Sqrt((int)Math.Pow((cordP[0] - cordX[0]), 2));
             distance += (int)Math.Sqrt((int)Math.Pow((cordP[1] - cordX[1]), 2));
