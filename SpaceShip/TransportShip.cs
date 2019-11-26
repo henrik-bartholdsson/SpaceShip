@@ -185,7 +185,7 @@ namespace week2_day2
             {
                 for (int j = 0; j < mapWidth; j++)
                 {
-                    if (map[i][j] == c)
+                    if (map[i][j].ToString().ToLower() == c.ToString().ToLower())
                     {
                         cord[0] = j;
                         cord[1] = i;
