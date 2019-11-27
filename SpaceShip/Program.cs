@@ -59,11 +59,12 @@ namespace SpaceShip
             station.Pickup(keyA, sulaco);
             Console.WriteLine();
 
+            station.DropOff(keyA, nostromo);
+            Console.WriteLine();
+
             station.Pickup(keyA, nostromo);
             Console.WriteLine();
 
-            station.DropOff(keyA, nostromo);
-            Console.WriteLine();
 
             Console.WriteLine();
 
