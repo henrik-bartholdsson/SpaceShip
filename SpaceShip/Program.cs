@@ -75,6 +75,8 @@ namespace SpaceShip
 
             Console.WriteLine($"Number of loads at {station.GetStationName()}: {station.GetNumberOfLoads()}");
 
+            prometheus.GetDistance();
+
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("End...");
             Console.ReadKey();
