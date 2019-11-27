@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace week2_day2
+namespace CargoService
 {
-    class Cargo
+    public class Cargo
     {
         private string description { get; set; }
         private int size { get; set; }

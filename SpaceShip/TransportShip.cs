@@ -4,23 +4,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CargoService;
 
-namespace week2_day2
+namespace SpaceShip
 {
-    class TransportShip
+    class TransportShip : ICargoTransporter
     {
-        private int size { get; set; }
-        private string name { get; set; }
+        private string name;
         private Stack<Cargo> storage = new Stack<Cargo>();
         private int available { get; set; }
 
+        public string GetShipName()
+        {
+            return name;
+        }
 
         public TransportShip(string name, int size)
         {
             if (size < 0)
                 throw new ArgumentException("Can't set account to a negative balance", "value");
             this.name = name;
-            this.size = size;
             available = size;
         }
 
@@ -39,24 +42,11 @@ namespace week2_day2
             }
         }
 
-        public bool MoveCargoToOtherShip(TransportShip ts)
-        {
-            Cargo cargoTemp;
-            while (storage.Count > 0)
-            {
-                cargoTemp = RemoveCargo();
-
-                if (!ts.AddCargo(cargoTemp))
-                {
-                    this.AddCargo(cargoTemp);
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public Cargo RemoveCargo()
         {
+            if (storage.Count < 1)
+                return null;
+
             var removedCargo = storage.Pop();
 
             if (removedCargo.GetSize() > 0)
@@ -67,7 +57,11 @@ namespace week2_day2
 
         public void ListCargo()
         {
-            Console.WriteLine($"--- {name}, Cargo, Availible space: {available} ---");
+            Console.Write($"--- ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(name);
+            Console.ResetColor();
+            Console.WriteLine($" cargo, Availible space: {available} ---");
             if (storage.Count < 1)
             {
                 Console.WriteLine("<empty>");
@@ -122,7 +116,7 @@ namespace week2_day2
 
             while (plotMapSpotX != cordP[0])
             {
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(50);
                 Console.BackgroundColor = ConsoleColor.Red;
                 if (cordX[0] > cordP[0])
                 {
@@ -140,7 +134,7 @@ namespace week2_day2
 
             while ((plotMapSpotY - yReference) != cordP[1])
             {
-                System.Threading.Thread.Sleep(200);
+                System.Threading.Thread.Sleep(50);
                 Console.BackgroundColor = ConsoleColor.Red;
                 if (cordX[1] > cordP[1])
                 {
@@ -195,6 +189,13 @@ namespace week2_day2
             }
 
             return cord;
+        }
+
+        public bool HasCargo()
+        {
+            if (storage.Count > 0)
+                return true;
+            return false;
         }
     }
 }
