@@ -18,8 +18,8 @@ namespace SpaceShip
             var station = new SpaceStation("Solaris");
             const string keyA = "A";
             const string keyB = "B";
+            const string keyC = "C";
 
-            var egg = new Cargo("Egg", 1);
             var beer = new Cargo("Beer", 6);
             var food = new Cargo("Food", 7);
             var tools = new Cargo("Tools", 8);
@@ -34,7 +34,7 @@ namespace SpaceShip
             nostromo.AddCargo(beer);
             nostromo.AddCargo(food);
 
-            lifeBoat.AddCargo(egg);
+            lifeBoat.AddCargo(new Cargo("Egg", 1));
 
             nostromo.ListCargo();
             prometheus.ListCargo();

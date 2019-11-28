@@ -14,17 +14,21 @@ namespace SpaceShip
         private Stack<Cargo> storage = new Stack<Cargo>();
         private int available { get; set; }
 
-        public string GetShipName()
-        {
-            return name;
-        }
-
         public TransportShip(string name, int size)
         {
             if (size < 0)
                 throw new ArgumentException("Can't set account to a negative balance", "value");
+
+            if (name.Length < 1)
+                throw new ArgumentException("A ship must have a name", "value");
+
             this.name = name;
             available = size;
+        }
+
+        public string GetShipName()
+        {
+            return name;
         }
 
         public bool AddCargo(Cargo item)
